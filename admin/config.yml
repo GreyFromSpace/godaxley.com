@@ -1,0 +1,48 @@
+# yaml-language-server: $schema=https://unpkg.com/@sveltia/cms/schema/sveltia-cms.json
+# The editor at godaxley.com/admin. Saving a post commits a Markdown file to
+# posts/ in this repo; .github/workflows/pages.yml then runs build.py and the
+# post is live about a minute later.
+
+backend:
+  name: github
+  repo: GreyFromSpace/godaxley.com
+  branch: main
+  commit_messages:
+    create: "Post: {{slug}}"
+    update: "Post edit: {{slug}}"
+    delete: "Post deleted: {{slug}}"
+    uploadMedia: "Image: {{path}}"
+    deleteMedia: "Image deleted: {{path}}"
+
+site_url: https://godaxley.com
+display_url: https://godaxley.com/blog/
+logo:
+  src: /og-logo.jpg
+
+media_folder: /media/blog
+public_folder: /media/blog
+
+collections:
+  - name: posts
+    label: Posts
+    label_singular: Post
+    folder: /posts
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    preview_path: "/blog/{{filename}}/"
+    sortable_fields: [date, title]
+    summary: "{{title}} · {{date | date('YYYY-MM-DD')}}{{draft | ternary(' · draft', '')}}"
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Date, name: date, widget: datetime }
+      - label: Summary
+        name: description
+        widget: string
+        required: false
+        hint: "One line under the title, and the preview text when the link is shared."
+      - label: Draft
+        name: draft
+        widget: boolean
+        default: false
+        hint: "Drafts are saved but not shown on the site."
+      - { label: Body, name: body, widget: richtext }

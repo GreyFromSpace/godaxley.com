@@ -14,6 +14,7 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Grey's logo: a dark creature head with teal ears and purple tentacles, glowing amber, over sacred geometry">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" type="application/rss+xml" title="G.O. Daxley" href="/blog/feed.xml">
 <!-- Grey's page template. Self-contained: fonts, CSS and behaviour all inline,
      nothing fetched. Copy this file, replace the demo blocks in <body>, keep the
      shell. Orientation notes (colour roles, the column, the lattice, the
@@ -527,6 +528,9 @@
   </figure>
 
   <nav class="links" aria-label="Where to find me">
+    <a class="link" href="/blog/">
+      <span class="k">Blog</span><span class="v">godaxley.com/blog</span>
+    </a>
     <a class="link" href="https://bsky.app/profile/godaxley.bsky.social" rel="me">
       <span class="k">Bluesky</span><span class="v">@godaxley.bsky.social</span>
     </a>
@@ -549,7 +553,8 @@
 (function () {
   "use strict";
   var sel = ".eyebrow, h1, .standfirst, .portrait figcaption, .prose p, .sec-num, .sec-head h3," +
-            "ol.list li, .control p, .notes-lead, .close";
+            "ol.list li, .control p, .notes-lead, .close," +
+            ".prose li, .prose h2, .prose h3, .empty";
   Array.prototype.forEach.call(document.querySelectorAll(sel), function (el) {
     if (el.querySelector(".hl")) { return; }
     var span = document.createElement("span"), n;

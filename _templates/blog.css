@@ -1,0 +1,81 @@
+<style>
+  /* ---------- the blog ----------  Additions only: everything else (colour,
+     type, column, lattice, .hl) comes from the front page's own stylesheet,
+     which build.py lifts verbatim. */
+
+  /* The masthead eyebrow is a link back to the index on post pages - teal,
+     because it is the site talking about itself. */
+  .eyebrow a { color: inherit; text-decoration: none; }
+  .eyebrow a:hover { text-decoration: underline; text-underline-offset: .25em; }
+
+  /* ---------- the index ---------- */
+  /* Same panel as the front page's .link rows, so the blog reads as more of
+     that page rather than a new one. Date is the label (teal, micro-caps),
+     title is the thing you came for (bright), summary is an aside (muted). */
+  .entries { display: flex; flex-direction: column; gap: .9rem; }
+  .entry {
+    display: flex; flex-direction: column; gap: .3rem;
+    background: var(--panel); border-left: 2px solid var(--teal);
+    padding: 1.1rem 1.4rem; text-decoration: none; color: var(--text);
+    transition: background .15s ease;
+  }
+  .entry:hover { background: var(--panel-2); }
+  .entry:focus-visible { outline: 2px solid var(--glow); outline-offset: 3px; }
+  .entry .d { font-size: .6875rem; font-weight: 700; letter-spacing: .18em;
+              text-transform: uppercase; color: var(--teal);
+              font-variant-numeric: tabular-nums; }
+  .entry .t { font-size: 1.0625rem; font-weight: 600; color: var(--bright); line-height: 1.35; }
+  .entry .s { font-size: .9375rem; font-weight: 300; color: var(--muted); line-height: 1.5; }
+  .empty { margin: 0; text-align: center; color: var(--muted); font-weight: 300; }
+
+  /* ---------- a post ---------- */
+  /* Markdown hands us bare h2/h3/ul/blockquote/img, so each gets the house
+     treatment here. Headings use the section-head scale (h3 = 1.25rem, 700). */
+  .prose h2, .prose h3 { margin: 1.4rem 0 0; color: var(--bright); font-weight: 700;
+                         letter-spacing: -.02em; line-height: 1.25; }
+  .prose h2 { font-size: 1.25rem; }
+  .prose h3 { font-size: 1.0625rem; }
+  /* Links are furniture, so teal; the underline carries the affordance so
+     colour isn't the only signal. */
+  .prose a { color: var(--teal); text-underline-offset: .2em; }
+  .prose a:hover { color: var(--bright); }
+  .prose em { color: var(--bright); }
+  .prose hr { border: 0; border-top: 1px solid var(--rule-hi); margin: 1rem 0; width: 100%; }
+  /* Lists follow 5.5: the marker is the first box INSIDE the .hl pane, on a
+     hanging indent, same 1em box + .6em gap as the front page's lists. */
+  .prose ul, .prose ol { margin: 0; padding: 0; list-style: none;
+                         display: flex; flex-direction: column; gap: .55rem;
+                         counter-reset: n; }
+  .prose li { padding-left: 1.6em; text-indent: -1.6em; }
+  .prose li li { text-indent: 0; }
+  .prose ul > li > .hl::before {
+    content: ""; display: inline-block; width: 1em; height: 1em; margin-right: .6em;
+    vertical-align: -.16em; background: var(--dot) center / contain no-repeat;
+  }
+  .prose ol > li { counter-increment: n; }
+  .prose ol > li > .hl::before {
+    content: counter(n) "."; display: inline-block; width: 1em; margin-right: .6em;
+    color: var(--teal); font-weight: 700; font-variant-numeric: tabular-nums;
+    text-indent: 0;
+  }
+  /* A quote is someone else's voice set apart: the guidance panel's frame. */
+  .prose blockquote {
+    margin: 0; background: var(--panel); border-left: 2px solid var(--teal);
+    padding: 1.1rem 1.4rem; display: flex; flex-direction: column; gap: .8rem;
+  }
+  .prose blockquote .hl { background: none; }
+  /* Pictures get the portrait's frame from the front page. */
+  .prose img { display: block; max-width: 100%; height: auto; margin: 0 auto;
+               border: 1px solid var(--edge); border-left: 2px solid var(--teal); }
+  .prose p:has(> img:only-child) .hl,
+  .prose p > .hl:has(> img:only-child) { background: none; padding: 0; }
+  .prose pre { margin: 0; overflow-x: auto; background: var(--panel);
+               border-left: 2px solid var(--edge); padding: .9rem 1.1rem; }
+  .prose pre code { color: var(--text); }
+  .prose table { border-collapse: collapse; width: 100%; }
+  .prose th, .prose td { border-bottom: 1px solid var(--rule); padding: .4rem .6rem; text-align: left; }
+  .prose th { color: var(--bright); font-weight: 600; }
+
+  .close a { color: var(--teal); text-decoration: none; }
+  .close a:hover { text-decoration: underline; text-underline-offset: .25em; }
+</style>
