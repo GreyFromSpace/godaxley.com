@@ -7,6 +7,9 @@ backend:
   name: github
   repo: GreyFromSpace/godaxley.com
   branch: main
+  # Token only: the OAuth button goes through Netlify, which this site does
+  # not use, so it just opened a "Not Found" popup.
+  auth_methods: [token]
   commit_messages:
     create: "Post: {{slug}}"
     update: "Post edit: {{slug}}"
