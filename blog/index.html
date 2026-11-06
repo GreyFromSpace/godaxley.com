@@ -1,3 +1,6 @@
+---
+layout: null
+---
 <!doctype html>
 <html lang="en">
 <head>
@@ -14,8 +17,8 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="alternate" type="application/rss+xml" title="G.O. Daxley" href="/blog/feed.xml">
-{{STYLES}}
-{{BLOG_CSS}}
+{% include styles.html %}
+{% include blog-css.html %}
 </head>
 <body>
 <div class="page">
@@ -26,12 +29,20 @@
   </header>
 
   <nav class="entries" aria-label="Posts">
-{{ENTRIES}}
+{% for post in site.posts %}
+    <a class="entry" href="{{ post.url }}">
+      <span class="d"><time datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: '%-d %b %Y' }}</time></span>
+      <span class="t">{{ post.title | escape }}</span>
+      {% if post.description and post.description != "" %}<span class="s">{{ post.description | escape }}</span>{% endif %}
+    </a>
+{% else %}
+    <p class="empty">Nothing here yet.</p>
+{% endfor %}
   </nav>
 
   <p class="close"><a href="/">godaxley.com</a> · <a href="/blog/feed.xml">RSS</a></p>
 
 </div>
-{{SCRIPTS}}
+{% include scripts.html %}
 </body>
 </html>

@@ -1,0 +1,14 @@
+# GitHub Pages builds this site with Jekyll on every push, including the
+# commits the /admin editor makes. Posts live in _posts/.
+title: G.O. Daxley
+url: https://godaxley.com
+timezone: America/Los_Angeles
+permalink: /blog/:year-:month-:day-:title/
+# Show a post even if its time is a little ahead of the build server's clock.
+future: true
+# Jekyll skips dot-folders by default; this one points Matrix clients at the chat.
+include: [.well-known]
+exclude: [README.md, _site]
+defaults:
+  - scope: { path: "", type: posts }
+    values: { layout: post }

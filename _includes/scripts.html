@@ -1,0 +1,47 @@
+{% raw %}
+<script>
+/* Highlighter — wraps each listed block's text in a .hl smoked-glass pane so the
+   lattice runs on between the lines. Add a selector to `sel` when you add a new
+   prose block. textContent is untouched, so nothing downstream sees the wrapper. */
+(function () {
+  "use strict";
+  var sel = ".eyebrow, h1, .standfirst, .portrait figcaption, .prose p, .sec-num, .sec-head h3," +
+            "ol.list li, .control p, .notes-lead, .close," +
+            ".prose li, .prose h2, .prose h3, .empty";
+  Array.prototype.forEach.call(document.querySelectorAll(sel), function (el) {
+    if (el.querySelector(".hl")) { return; }
+    var span = document.createElement("span"), n;
+    span.className = "hl";
+    while ((n = el.firstChild)) {
+      if (n.nodeType === 1 && (n.tagName === "TEXTAREA" || n.tagName === "INPUT")) { break; }
+      span.appendChild(n);
+    }
+    el.insertBefore(span, el.firstChild);
+  });
+})();
+</script>
+<script>
+// Parallax. Publishes scroll PROGRESS only — 0 at the top of the document, 1 at
+// the bottom — to --p, so the emblem drifts the same amount on a short page as a
+// long one. How far that is belongs to the stylesheet (--travel on body::after).
+// Delete this block and the `body::after, .bar::before` rule together to remove
+// the lattice entirely.
+(function () {
+  var root = document.documentElement;
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) { return; }
+  var ticking = false;
+  function update() {
+    ticking = false;
+    var max = Math.max(1, root.scrollHeight - window.innerHeight);
+    var p = Math.min(1, Math.max(0, (window.pageYOffset || root.scrollTop) / max));
+    root.style.setProperty("--p", p.toFixed(4));
+  }
+  function onScroll() {
+    if (!ticking) { ticking = true; window.requestAnimationFrame(update); }
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll, { passive: true });
+  update();
+})();
+</script>
+{% endraw %}
