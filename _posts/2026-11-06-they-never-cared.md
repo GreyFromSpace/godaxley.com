@@ -1,9 +1,11 @@
 ---
 title: They never cared...
 date: 2026-11-06T16:43:00-08:00
+description: ''
 published: true
 ---
-They never cared... That's the way I feel right now. These friends of mine have been with me since high school, K since day one and J not long after, and in one day they fully disappointed me to the point I felt the need to cut them fully out. I was so angry, so hurt. Now they won't talk to me...
+
+That's the way I feel right now. These friends of mine have been with me since high school, K since day one and J not long after, and in one day they fully disappointed me to the point I felt the need to cut them fully out. I was so angry, so hurt. Now they won't talk to me...
 
 I hate myself so much. I really do.
 
@@ -41,7 +43,7 @@ Two days later, K answered my AI question. "you might be projecting a little." I
 
 K apologized. Twice. For the restaurant, and for how they reacted when I told them to leave. "Forgiven and accepted," I said, and I meant it.
 
-Then: "but i *really* don't appreciate having my time wasted." The argument "wasn't a big deal." I "could have just as easily asked for space." They "will not accept fault there."
+Then: "but i _really_ don't appreciate having my time wasted." The argument "wasn't a big deal." I "could have just as easily asked for space." They "will not accept fault there."
 
 I tried to explain. Setting the boundary at all was terrifying. Asking them to leave at all took so much effort, it was akin to moving three tons with my toe. If they'd just sat in the truck and finished up, then came back, I would have been ok.
 
