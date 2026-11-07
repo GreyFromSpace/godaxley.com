@@ -26,6 +26,8 @@
     {% if page.description and page.description != "" %}<p class="standfirst">{{ page.description | escape }}</p>{% endif %}
   </header>
 
+  {% if page.audio and page.audio != "" %}<audio class="track" controls preload="metadata" src="{{ page.audio }}">Your browser can't play this audio. <a href="{{ page.audio }}">Download it</a>.</audio>{% endif %}
+
   <article class="prose">
 {{ content }}
   </article>

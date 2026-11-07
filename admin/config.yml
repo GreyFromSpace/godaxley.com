@@ -48,4 +48,10 @@ collections:
         widget: boolean
         default: true
         hint: "Turn off to keep it as a draft: saved, but not on the site."
+      - label: Audio
+        name: audio
+        widget: file
+        required: false
+        accept: audio/*
+        hint: "Optional. An audio file (mp3, ogg, m4a). A player appears under the title. Keep it under about 50 MB."
       - { label: Body, name: body, widget: richtext }
