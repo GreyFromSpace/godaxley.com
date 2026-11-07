@@ -1,0 +1,161 @@
+---
+layout: null
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guestbook · G.O. Daxley</title>
+<meta name="description" content="Sign the guestbook at godaxley.com.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://godaxley.com/guestbook/">
+<meta property="og:title" content="G.O. Daxley · Guestbook">
+<meta property="og:description" content="Stop by, say hi, leave a mark.">
+<meta property="og:image" content="https://godaxley.com/og-logo.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+{% include styles.html %}
+{% include blog-css.html %}
+<style>
+  /* ---------- the guestbook ----------  The form fields borrow the
+     questionnaire's textarea: amber, because whoever is typing is the person at
+     the keys (Design Bible 2.2). Entries reuse the blog index's panel. */
+  .sign { display: flex; flex-direction: column; gap: 1rem; }
+  .sign label { display: flex; flex-direction: column; gap: .35rem; }
+  .sign .k { font-size: .6875rem; font-weight: 700; letter-spacing: .18em;
+             text-transform: uppercase; color: var(--teal); }
+  .sign .k i { font-style: normal; font-weight: 400; letter-spacing: .04em;
+               text-transform: none; color: var(--muted); }
+  .sign input {
+    display: block; width: 100%; box-sizing: border-box;
+    font-family: var(--font); font-size: .9375rem; line-height: 1.55;
+    color: var(--answer); caret-color: var(--answer); background: var(--panel);
+    border: 1px solid var(--edge); border-left: 2px solid var(--muted);
+    padding: .55rem .85rem; box-shadow: 0 1px 2px rgba(0, 0, 0, .35);
+    transition: background .15s ease, border-color .15s ease, box-shadow .15s ease;
+  }
+  .sign input::placeholder { color: #978d95; opacity: 1; }
+  .sign input:hover { background: var(--panel-2); border-color: var(--muted);
+                      border-left-color: var(--answer); }
+  .sign input:focus { outline: none; background: var(--panel-2);
+                      border-color: var(--answer); border-left-color: var(--answer);
+                      box-shadow: 0 0 0 3px rgba(248, 176, 64, .20); }
+  .sign textarea { margin-top: 0; min-height: 7rem; overflow: auto; }
+  .sign .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 34rem) { .sign .row { grid-template-columns: 1fr; } }
+  .sign .go { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  .sign .status { font-size: .875rem; color: var(--muted); }
+  .sign .status.ok { color: var(--teal); }
+  /* The honeypot: off-screen, out of the tab order, unannounced. */
+  .sign .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+  .book { display: flex; flex-direction: column; gap: .9rem; }
+  .note {
+    display: flex; flex-direction: column; gap: .45rem;
+    background: var(--panel); border-left: 2px solid var(--teal);
+    padding: 1.1rem 1.4rem; margin: 0;
+  }
+  .note .who { display: flex; align-items: baseline; gap: .75rem; flex-wrap: wrap; }
+  .note .n { font-size: 1.0625rem; font-weight: 600; color: var(--bright); }
+  .note .d { font-size: .6875rem; font-weight: 700; letter-spacing: .18em;
+             text-transform: uppercase; color: var(--teal); font-variant-numeric: tabular-nums; }
+  .note .w { font-size: .8125rem; color: var(--teal); text-underline-offset: .2em;
+             overflow-wrap: anywhere; }
+  .note .w:hover { color: var(--bright); }
+  .note .m { margin: 0; font-size: .9375rem; line-height: 1.6; color: var(--text);
+             white-space: pre-line; overflow-wrap: anywhere; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="masthead">
+    <div class="eyebrow">Guestbook</div>
+    <h1>G.O. Daxley</h1>
+    <p class="standfirst">Stop by, say hi, leave a mark. Everything here is public except your email.</p>
+  </header>
+
+  <form class="sign" id="sign" novalidate>
+    <div class="row">
+      <label><span class="k">Name</span>
+        <input name="name" maxlength="60" required autocomplete="nickname"></label>
+      <label><span class="k">Website <i>optional</i></span>
+        <input name="website" maxlength="200" inputmode="url" placeholder="bsky.app/profile/…"></label>
+    </div>
+    <label><span class="k">Email <i>optional · only Grey sees it, so he can write back</i></span>
+      <input name="email" type="email" maxlength="200" autocomplete="email"></label>
+    <label><span class="k">Message</span>
+      <textarea name="message" maxlength="2000" required></textarea></label>
+    <div class="hp" aria-hidden="true"><label>Leave this empty <input name="homepage" tabindex="-1" autocomplete="off"></label></div>
+    <div class="go">
+      <button class="primary" type="submit">Sign the guestbook</button>
+      <span class="status" id="status" role="status" aria-live="polite"></span>
+    </div>
+  </form>
+
+  <section class="book" id="book" aria-label="Signatures">
+{% assign entries = site.data.guestbook.entries %}
+{% for e in entries %}
+    <article class="note">
+      <div class="who">
+        <span class="n">{{ e.name | escape }}</span>
+        <time class="d" datetime="{{ e.date }}">{{ e.date | date: '%-d %b %Y' }}</time>
+        {% if e.website and e.website != "" %}<a class="w" href="{{ e.website | escape }}" rel="nofollow ugc noopener" target="_blank">{{ e.website | remove_first: 'https://' | remove_first: 'http://' | escape }}</a>{% endif %}
+      </div>
+      <p class="m">{{ e.message | escape }}</p>
+    </article>
+{% else %}
+    <p class="empty" id="empty">No signatures yet. Be the first.</p>
+{% endfor %}
+  </section>
+
+  <p class="close"><a href="/">godaxley.com</a> · <a href="/blog/">Blog</a></p>
+
+</div>
+{% include scripts.html %}
+{% raw %}
+<script>
+(function () {
+  "use strict";
+  var API = "https://the-giggle-ship.tail8a667c.ts.net/guestbook-api/sign";
+  var form = document.getElementById("sign"), status = document.getElementById("status");
+  var btn = form.querySelector("button");
+  function say(t, ok) { status.textContent = t; status.className = "status" + (ok ? " ok" : ""); }
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text) e.textContent = text; return e; }
+  function show(entry) {
+    var empty = document.getElementById("empty"); if (empty) empty.remove();
+    var a = el("article", "note"), who = el("div", "who");
+    who.appendChild(el("span", "n", entry.name));
+    var d = el("time", "d", new Date(entry.date).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }));
+    d.dateTime = entry.date; who.appendChild(d);
+    if (entry.website) {
+      var w = el("a", "w", entry.website.replace(/^https?:\/\//, ""));
+      w.href = entry.website; w.rel = "nofollow ugc noopener"; w.target = "_blank"; who.appendChild(w);
+    }
+    a.appendChild(who); a.appendChild(el("p", "m", entry.message));
+    var book = document.getElementById("book"); book.insertBefore(a, book.firstChild);
+  }
+  form.addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    var f = form.elements, body = {};
+    ["name", "website", "email", "message", "homepage"].forEach(function (k) { body[k] = f[k].value; });
+    if (!body.name.trim() || !body.message.trim()) { say("A name and a message, please."); return; }
+    btn.disabled = true; say("Signing…");
+    fetch(API, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) })
+      .then(function (r) { return r.json().catch(function () { return { ok: false }; }); })
+      .then(function (j) {
+        if (j.ok) {
+          if (j.entry) show(j.entry);
+          form.reset(); say("Signed. Thank you!", true);
+        } else { say(j.error || "That didn't go through. Try again in a bit."); }
+      })
+      .catch(function () { say("Couldn't reach the guestbook right now. Try again later."); })
+      .then(function () { btn.disabled = false; });
+  });
+})();
+</script>
+{% endraw %}
+</body>
+</html>

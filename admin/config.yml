@@ -55,3 +55,26 @@ collections:
         accept: audio/*
         hint: "Optional. An audio file (mp3, ogg, m4a). A player appears under the title. Keep it under about 50 MB."
       - { label: Body, name: body, widget: richtext }
+
+  # Signatures from godaxley.com/guestbook. The desktop's guestbook service
+  # adds them; this is where to fix or delete one (spam, typos). The visitor's
+  # email is never stored here, only sent to Grey.
+  - name: guestbook
+    label: Guestbook
+    files:
+      - name: entries
+        label: Signatures
+        file: /_data/guestbook.json
+        format: json
+        fields:
+          - label: Signatures
+            name: entries
+            widget: list
+            label_singular: Signature
+            summary: "{{fields.name}} · {{fields.date}}"
+            hint: "Newest first. Delete one with its menu, then Save."
+            fields:
+              - { label: Name, name: name, widget: string }
+              - { label: Date, name: date, widget: string, hint: "UTC, as the guestbook wrote it." }
+              - { label: Website, name: website, widget: string, required: false }
+              - { label: Message, name: message, widget: text }
