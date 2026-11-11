@@ -28,9 +28,27 @@ The chores we were made to do, ON TOP OF CARING FOR SAMUEL. A task that was actu
 
 ## Mormonism
 
-And then there's the Mormonism. Fucking Mormonism is one of the things that traumatized me the most.
+Then there's the Mormonism. Fucking Mormonism is one of the things that traumatized me the most.
+
+Church was the most sterile, boring thing imaginable. Mormon church drags. If you've ever heard how sacrament meeting goes, and then Sunday school after it... U G H. Y A W N. I was playing Kingdom Hearts in my head, dissociating the whole time.
+
+We'd been going since I was a baby, so a lot of my early memories of other kids come from those circles. Acceptable company for growing Mormon faithfuls, I guess. None of them ever felt safe to keep as friends. I hated church, and every friendship there felt superficial and meaningless. Nobody cared what I liked. I was into fantasy and dragons, which a lot of them had negative, broad, sweeping opinions about, so I learned the time and place for it was alone, far away. Nobody cared. My info dumps were an active nuisance.
 
 Privacy was a privilege. I had no autonomy outside of approved little things. He was the knock-and-enter kind of guy. "If you aren't doing anything wrong, you shouldn't have any reason to be worried."
+
+My computer use was actually not as well tracked. Brett was into World of Warcraft. My first laptop was an ASUS K60IJ: Pentium Dual, integrated graphics, and Minecraft actually ran pretty okay on it. Brett asked if he could play WoW on it once. I said yes. I mean, he asked so nicely, and I wasn't using it right then. What was the harm?
+
+He moved right in.
+
+DeviantArt, Minecraft, Skype, my iPod touch. Those became my escapes, where I met communities of people who accepted me and fostered my passions for dragons, cartoons, stories. Writing. Oh my god, writing.
+
+I don't remember exactly when, but the bishop had me in his office once. I told him, eye to eye, that I thought this whole thing was utter nonsense and that I'd been forced to come here by that asshole. I said I came to keep Brett happy and would rather do anything else than be a Mormon. He didn't really say anything. He probably talked to Brett. Weirdly, I wasn't in trouble.
+
+When I was 13, Brett gave up. It wasn't worth fighting over anymore. I think he'd realized I was a full-blown anti-theist. Through my teens I read Dawkins and Hitchens, watched Drunken Peasants and everything else in that vein. Skeptics became my heroes. Secular movements became my north star.
+
+Boy Scouts were a mixed bag, and in Paradise, California, Scouts were heavily Mormon. I got lured in by a creative flyer with a kid in a go-kart on it. I thought that meant we'd get to do something like that, so I went for it. Brett turned it into a lifelong commitment I HAD to keep, because I'd made the commitment. From then on it was something I tolerated, because we did get to do fun things. It was also fucking horrid, paramilitary shit, and the people around it were so infuriating. I was in it long enough to be an atheist while a Boy Scout, in an organization whose oath swears a duty to God.
+
+Well, God can lick my taint.
 
 ## Horseplay
 
