@@ -1,9 +1,11 @@
 ---
 title: Horseplay
 date: 2026-11-11T04:32:00-08:00
-description: ''
+description: 'My childhood, in my own words.'
 published: true
 ---
+
+## Born
 
 I was born March 26th, 1996, at 7:33 PM, to Jerry and Holly. Holly was 17. Her parents were Nancy and Bob Woods. They divorced, and Bob later killed himself. No idea why. Holly was raised by Brett Denhalter.
 
@@ -24,13 +26,13 @@ Also I need to clarify that when I say "chores" I'm not talking about like, doin
 The chores we were made to do, ON TOP OF CARING FOR SAMUEL. A task that was actually dangerous sometimes. We would have to do hard physical labor. Clearing swaths of blackberry brambles with gloves, by hand. The gloves were NOT thick enough by the way so we got injured a lot. It was tough. This was a punishment used when we were out of things to be grounded from. I've spent entire MONTHS grounded and honestly never remembered quite why...All I remember is that nothing is mine, everything is leverage and my life isn't mine. My dignity is ephemeral and I learned that word early on in life.
 
 
-* * *
+## Mormonism
 
 And then there's the Mormonism. Fucking Mormonism is one of the things that traumatized me the most.
 
 Privacy was a privilege. I had no autonomy outside of approved little things. He was the knock-and-enter kind of guy. "If you aren't doing anything wrong, you shouldn't have any reason to be worried."
 
-* * *
+## Horseplay
 
 My dad would do some of the stupidest things. He'd say some of the stupidest things, get a horrible reaction, blame you for your reaction, and then go about his day as if he hadn't just hurt your feelings, or otherwise completely riled you up past your boiling point.
 
@@ -68,7 +70,7 @@ That's disgusting. It's how people justify awful, horrible things. Rape. Murder.
 
 Who does that? Who justifies that? He used masculinity as a tool to justify it, too. Guys should just be tough and take it. Well, I can be femme if I want. I'll wear makeup and not be afraid, because I'm not fragile like he is. Snowflake.
 
-* * *
+## Nancy
 
 I haven't said much about Nancy. She's complicated. She was a passive observer of his cruelty. She went along with anything he said, except sometimes she'd put me in this position of, "Well, we just won't tell him." She'd do something for me that we both knew Brett would be unreasonable about, and we'd agree not to tell Brett. Because it's impossible to reason with somebody that far up his own ass about himself and his principles and his ideology.
 
@@ -90,7 +92,7 @@ I said suicidal shit at school, too, and it got ignored and chalked up to attent
 
 I bet being married to that fucking asinine pig would turn anyone into a doormat. Impotent in every sense of the word. Except, I guess, the sexual one. Not that they're having any more babies. Not that the two of them are even fucking, because I know neither of them can stand the other. Ugh. My God.
 
-* * *
+## Shit With Bread
 
 Don't get me wrong. At least I got a Sega Genesis, a PS1, a PS2, a PS3, a Wii, a DSi, a Game Boy Color, and a GBA. Don't forget the GBA. All the VHS tapes and books and toys I could ever have wanted. All the TV I could watch on DirecTV.
 
@@ -106,7 +108,7 @@ Or the giant douche and the turd sandwich. Honestly, I'd vote Turd Sandwich. Bet
 
 You see how it was. Shit with bread, and maybe some sauce and lettuce.
 
-* * *
+## Now
 
 I'm an adult now, and I can't get those moments out of my head. I can't receive a hug or a back rub from my boyfriend without breaking into tears, because all of a sudden I'm nine years old, being held down, begging him to stop. Begging Brett to stop. I'm back to being a child with no autonomy, begging for some kind of miracle, for somebody to step in and say that this is wrong. That I'm allowed my own personal space. That asking for it isn't dramatic, or too much.
 
@@ -138,7 +140,7 @@ And I got myself a job out of high school eventually.
 
 Right?
 
-* * *
+## Seventeen
 
 No. Actually, it took me until I was 27 to get my high school diploma, because at 17 I had a full-blown meltdown after being pushed to my breaking point, and I wanted out.
 
@@ -176,7 +178,7 @@ And then I had to go back. After six years with Kathy, the finances didn't work 
 
 My life was hell.
 
-* * *
+## Holly
 
 As for Holly. She ended up doing a shit load of meth with my birth father and shat out a dough-factory of a kid. Me. Later, once I'd known her for a while, she body shamed me, and then blamed me for "ruining her body." Now she has stretch marks. Honestly, the meth already fucked her long ago, and that twig lady can go suck an egg.
 
@@ -184,7 +186,7 @@ I'm awesome, and big, and fat, and being big and fat is sexy.
 
 **Holly:** Every time I cum is a fuck you to you and your stupid twiggy fucking face, you gacked out tweaker bitch.
 
-* * *
+## Scot-Free
 
 I get to live with the pain, and he gets to be scot-free. He gets to live in his multi-million dollar house with his wife, and I get to live in a dingy converted garage with a door that doesn't lock and windows that don't close well enough to lock. Another garage. I'm not safe.
 
@@ -196,7 +198,7 @@ He will never help me. If I asked for any kind of financial help, he'd tell me, 
 
 So I'm on disability. State disability, not social security, and it runs out August 2027. In August 2027, I'll be broke. No income. I could try to find a job, or try to get social security disability set up, but even then, the whole check would go to rent. Nothing left for car insurance, or gas for the car. Nothing for food. I wouldn't be able to go grocery shopping at all. Much less pay for internet. That would be a luxury I'm not allowed. My phone would be a joke. I'd be completely and utterly fucking screwed.
 
-* * *
+## In Case
 
 Life is cruel and painful, and it doesn't make any sense. It's very unfair, and nobody gets what they want. Everybody gets maybe a joke version of what they might have wanted, and then they die. They die a meme, usually.
 
@@ -238,7 +240,7 @@ I'm oddly calm about all of this. I think it's because I've finally accepted tha
 
 I'll probably do kind of an Unus Annus thing. This blog will stick around about as long as the domain stays active. I bought it for a year, so there'll be a window if anybody wants to read through it before it goes down for good. It's also a repository on GitHub, so just because the domain redirects there doesn't mean it's gone forever. It'll probably be archived until GitHub burns to the ground in the year 4098. Maybe.
 
-* * *
+## Fuck You
 
 **Brett:** You've never once said out loud that you recognize any of this, or that you're sorry. You wonder why I'm still so upset, why I never want to talk to you. Except when I do, and I send you rambles at 3am that you'll never read, because you literally do not care. You're comfortable knowing I'm just some fucking insane person you don't have to worry about. Outside of talking shit about me at family gatherings because you just love posturing yourself above anything you deem yourself better than mm? Morally superior, mmm?
 
