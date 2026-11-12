@@ -77,4 +77,5 @@ collections:
               - { label: Name, name: name, widget: string }
               - { label: Date, name: date, widget: string, hint: "UTC, as the guestbook wrote it." }
               - { label: Website, name: website, widget: string, required: false }
-              - { label: Message, name: message, widget: text }
+              - { label: Message, name: message, widget: text, required: false }
+              - { label: Doodle, name: doodle, widget: string, required: false, hint: "Path to the drawing in media/guestbook. Clear it to hide the doodle." }

@@ -64,6 +64,24 @@ layout: null
   .note .w { font-size: .8125rem; color: var(--teal); text-underline-offset: .2em;
              overflow-wrap: anywhere; }
   .note .w:hover { color: var(--bright); }
+  /* ---------- the doodle box ----------  480x240, drawn on the --field ground.
+     Pens are the site's own lanes plus white; the eraser paints the ground back. */
+  .doodle-box { display: flex; flex-direction: column; gap: .5rem; }
+  .doodle-box canvas {
+    display: block; width: 100%; max-width: 480px; aspect-ratio: 2 / 1; height: auto;
+    background: #3b373b; border: 1px solid var(--edge); border-left: 2px solid var(--muted);
+    touch-action: none; cursor: crosshair; box-shadow: 0 1px 2px rgba(0, 0, 0, .35);
+  }
+  .doodle-box canvas:hover, .doodle-box canvas:focus { border-left-color: var(--answer); outline: none; }
+  .tools { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; max-width: 480px; }
+  .tools .sw { width: 1.9rem; height: 1.9rem; padding: 0; border: 2px solid var(--edge);
+               border-radius: 50%; cursor: pointer; }
+  .tools .sw[aria-pressed="true"] { border-color: var(--bright); box-shadow: 0 0 0 2px var(--ink), 0 0 0 4px var(--bright); }
+  .tools .gap { flex: 1; }
+  .tools button.t { font-size: .75rem; padding: .3rem .65rem; }
+  .tools button.t[aria-pressed="true"] { background: var(--teal); color: var(--ink); }
+  .note .doodle { display: block; width: 100%; max-width: 480px; height: auto;
+                  aspect-ratio: 2 / 1; border: 1px solid var(--rule); }
   .note .m { margin: 0; font-size: .9375rem; line-height: 1.6; color: var(--text);
              white-space: pre-line; overflow-wrap: anywhere; }
 </style>
@@ -87,7 +105,25 @@ layout: null
     <label><span class="k">Email <i>optional · only Grey sees it, so he can write back</i></span>
       <input name="email" type="email" maxlength="200" autocomplete="email"></label>
     <label><span class="k">Message</span>
-      <textarea name="message" maxlength="2000" required></textarea></label>
+      <textarea name="message" maxlength="2000"></textarea></label>
+    <div class="doodle-box">
+      <span class="k">Doodle <i>optional · draw something</i></span>
+      <canvas id="doodle" width="480" height="240" tabindex="0" aria-label="Doodle box. Draw with a mouse, finger or pen."></canvas>
+      <div class="tools" id="tools">
+        <button type="button" class="sw" data-c="#dadada" style="background:#dadada" aria-label="White pen" aria-pressed="true"></button>
+        <button type="button" class="sw" data-c="#f8b040" style="background:#f8b040" aria-label="Amber pen" aria-pressed="false"></button>
+        <button type="button" class="sw" data-c="#10d898" style="background:#10d898" aria-label="Teal pen" aria-pressed="false"></button>
+        <button type="button" class="sw" data-c="#b07fd0" style="background:#b07fd0" aria-label="Purple pen" aria-pressed="false"></button>
+        <button type="button" class="sw" data-c="#e05a6a" style="background:#e05a6a" aria-label="Red pen" aria-pressed="false"></button>
+        <button type="button" class="sw" data-c="#241c24" style="background:#241c24" aria-label="Dark pen" aria-pressed="false"></button>
+        <span class="gap"></span>
+        <button type="button" class="t" data-w="3" aria-pressed="true">Thin</button>
+        <button type="button" class="t" data-w="9" aria-pressed="false">Thick</button>
+        <button type="button" class="t" data-erase aria-pressed="false">Eraser</button>
+        <button type="button" class="t" data-undo>Undo</button>
+        <button type="button" class="t" data-clear>Clear</button>
+      </div>
+    </div>
     <div class="hp" aria-hidden="true"><label>Leave this empty <input name="homepage" tabindex="-1" autocomplete="off"></label></div>
     <div class="go">
       <button class="primary" type="submit">Sign the guestbook</button>
@@ -104,7 +140,8 @@ layout: null
         <time class="d" datetime="{{ e.date }}">{{ e.date | date: '%-d %b %Y' }}</time>
         {% if e.website and e.website != "" %}<a class="w" href="{{ e.website | escape }}" rel="nofollow ugc noopener" target="_blank">{{ e.website | remove_first: 'https://' | remove_first: 'http://' | escape }}</a>{% endif %}
       </div>
-      <p class="m">{{ e.message | escape }}</p>
+      {% if e.message and e.message != "" %}<p class="m">{{ e.message | escape }}</p>{% endif %}
+      {% if e.doodle and e.doodle != "" %}<img class="doodle" src="{{ e.doodle | escape }}" width="480" height="240" loading="lazy" alt="A doodle by {{ e.name | escape }}">{% endif %}
     </article>
 {% else %}
     <p class="empty" id="empty">No signatures yet. Be the first.</p>
@@ -124,7 +161,39 @@ layout: null
   var btn = form.querySelector("button");
   function say(t, ok) { status.textContent = t; status.className = "status" + (ok ? " ok" : ""); }
   function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text) e.textContent = text; return e; }
-  function show(entry) {
+  /* ---- the doodle box ---- */
+  var cv = document.getElementById("doodle"), cx = cv.getContext("2d");
+  var GROUND = "#3b373b", pen = { c: "#dadada", w: 3, erase: false }, undo = [], drawn = false, live = null;
+  function blank() { cx.fillStyle = GROUND; cx.fillRect(0, 0, cv.width, cv.height); drawn = false; }
+  blank();
+  function at(ev) { var r = cv.getBoundingClientRect();
+    return [(ev.clientX - r.left) * cv.width / r.width, (ev.clientY - r.top) * cv.height / r.height]; }
+  function stroke(a, b) {
+    cx.strokeStyle = pen.erase ? GROUND : pen.c; cx.lineWidth = pen.erase ? 18 : pen.w;
+    cx.lineCap = cx.lineJoin = "round"; cx.beginPath(); cx.moveTo(a[0], a[1]); cx.lineTo(b[0], b[1]); cx.stroke();
+  }
+  cv.addEventListener("pointerdown", function (ev) {
+    ev.preventDefault(); cv.setPointerCapture(ev.pointerId);
+    undo.push(cx.getImageData(0, 0, cv.width, cv.height)); if (undo.length > 30) undo.shift();
+    live = at(ev); stroke(live, live); drawn = true;
+  });
+  cv.addEventListener("pointermove", function (ev) { if (!live) return; var p = at(ev); stroke(live, p); live = p; });
+  ["pointerup", "pointercancel", "lostpointercapture"].forEach(function (t) { cv.addEventListener(t, function () { live = null; }); });
+  function press(group, on) { group.forEach(function (b) { b.setAttribute("aria-pressed", b === on ? "true" : "false"); }); }
+  var tools = document.getElementById("tools");
+  var sws = [].slice.call(tools.querySelectorAll(".sw")), widths = [].slice.call(tools.querySelectorAll("[data-w]"));
+  var eraser = tools.querySelector("[data-erase]");
+  sws.forEach(function (b) { b.addEventListener("click", function () {
+    pen.c = b.dataset.c; pen.erase = false; press(sws, b); eraser.setAttribute("aria-pressed", "false"); }); });
+  widths.forEach(function (b) { b.addEventListener("click", function () {
+    pen.w = +b.dataset.w; pen.erase = false; press(widths, b); eraser.setAttribute("aria-pressed", "false"); }); });
+  eraser.addEventListener("click", function () { pen.erase = !pen.erase; eraser.setAttribute("aria-pressed", String(pen.erase)); });
+  tools.querySelector("[data-undo]").addEventListener("click", function () {
+    if (undo.length) { cx.putImageData(undo.pop(), 0, 0); drawn = undo.length > 0 || drawn; } });
+  tools.querySelector("[data-clear]").addEventListener("click", function () {
+    undo.push(cx.getImageData(0, 0, cv.width, cv.height)); blank(); });
+
+  function show(entry, doodleSrc) {
     var empty = document.getElementById("empty"); if (empty) empty.remove();
     var a = el("article", "note"), who = el("div", "who");
     who.appendChild(el("span", "n", entry.name));
@@ -134,21 +203,27 @@ layout: null
       var w = el("a", "w", entry.website.replace(/^https?:\/\//, ""));
       w.href = entry.website; w.rel = "nofollow ugc noopener"; w.target = "_blank"; who.appendChild(w);
     }
-    a.appendChild(who); a.appendChild(el("p", "m", entry.message));
+    a.appendChild(who);
+    if (entry.message) a.appendChild(el("p", "m", entry.message));
+    if (entry.doodle) {             // the committed file takes a minute to go live; show the local copy
+      var im = el("img", "doodle"); im.src = doodleSrc || entry.doodle; im.width = 480; im.height = 240;
+      im.alt = "A doodle by " + entry.name; a.appendChild(im);
+    }
     var book = document.getElementById("book"); book.insertBefore(a, book.firstChild);
   }
   form.addEventListener("submit", function (ev) {
     ev.preventDefault();
     var f = form.elements, body = {};
     ["name", "website", "email", "message", "homepage"].forEach(function (k) { body[k] = f[k].value; });
-    if (!body.name.trim() || !body.message.trim()) { say("A name and a message, please."); return; }
+    if (drawn) body.doodle = cv.toDataURL("image/png");
+    if (!body.name.trim() || !(body.message.trim() || body.doodle)) { say("A name, and a message or a doodle, please."); return; }
     btn.disabled = true; say("Signing…");
     fetch(API, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) })
       .then(function (r) { return r.json().catch(function () { return { ok: false }; }); })
       .then(function (j) {
         if (j.ok) {
-          if (j.entry) show(j.entry);
-          form.reset(); say("Signed. Thank you!", true);
+          if (j.entry) show(j.entry, body.doodle);
+          form.reset(); undo = []; blank(); say("Signed. Thank you!", true);
         } else { say(j.error || "That didn't go through. Try again in a bit."); }
       })
       .catch(function () { say("Couldn't reach the guestbook right now. Try again later."); })
