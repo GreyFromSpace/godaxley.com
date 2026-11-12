@@ -1,17 +1,26 @@
 <script>
-/* The living lattice behind blog posts (2026-11-11).
+/* The living lattice (2026-11-12, Grey's settings: 12 copies, 6 alive, depth 0.5, shade).
    A Flower-of-Life hex lattice, carved in ground-ladder tones (lit rim, deep groove).
-   A hex lattice is three interleaved copies of itself: the circle centres and the
-   centres of its up- and down-pointing triangles. Every CYCLE seconds a new
-   generation of circles is born from the next copy, grows from a point to twice the
-   spacing over three cycles, and fades by THICKNESS (hairline, full, hairline), never
-   by transparency, which ghosts. So the pattern only moves forward, passing through
-   the Seed of Life, the Flower of Life, stars and false cubes, and never repeats a
-   moment the same way twice.
+
+   Copies: a hex lattice lines up with itself at the centres of its triangles (3 places)
+   and at the midpoints of its edges (4 places). Together that is 12 offset copies of the
+   same grid. Every CYCLE seconds a new generation of circles is born from the next copy,
+   grows steadily, and fades by THICKNESS (hairline, full, hairline), never by
+   transparency, which ghosts. Six generations are alive at once. All 12 copies take
+   8.5 minutes to come round, and each visit opens somewhere different in that loop.
+
+   Depth: newest in front. Each layer behind is zoomed out by DEPTH per step, about the
+   window centre, and sinks toward the ground colour like haze. "How far back" is the
+   summed thickness of the layers in front, so a hairline newborn or a dying layer
+   weighs nothing and nobody jumps when one arrives or leaves.
+
+   Drawing: each layer is a repeating grid, so only one period of it (a d x d*sqrt3 tile)
+   is drawn, and the browser repeats it. A far, tiny layer costs the same as a near one.
+
    CYCLE is GEO_TURN / GEO_SYM from bible 2.8. "Reduce motion" gets one still frame. */
 (function () {
   "use strict";
-  const CYCLE = 42.3607;
+  const CYCLE = 42.3607, COPIES = 12, LIFE = 6, DEPTH = 0.5, HAZE = 0.75;
   const S3 = Math.sqrt(3);
   const GROUND = "#1e181e", RIM = "#3b373b", GROOVE = "#120c12";
 
@@ -20,8 +29,20 @@
   cv.setAttribute("aria-hidden", "true");
   document.body.prepend(cv);
   const ctx = cv.getContext("2d");
-  if (!ctx) return;
+  if (!ctx || typeof DOMMatrix === "undefined") return;
   const still = matchMedia("(prefers-reduced-motion: reduce)");
+
+  // the 12 copies: triangle-centre offset (i mod 3) plus edge-midpoint offset (i mod 4)
+  const TRI = [[0, 0], [1 / 2, S3 / 6], [1, S3 / 3]];
+  const MID = [[0, 0], [1 / 2, 0], [1 / 4, S3 / 4], [3 / 4, S3 / 4]];
+  function offset(g) {
+    const i = ((g % COPIES) + COPIES) % COPIES, a = TRI[i % 3], b = MID[i % 4];
+    return [a[0] + b[0], a[1] + b[1]];
+  }
+
+  const hex = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
+  const mix = (a, b, k) => { const A = hex(a), B = hex(b);
+    return "rgb(" + A.map((v, i) => Math.round(v + (B[i] - v) * k)).join(",") + ")"; };
 
   let W, H, dpr, d;
   function size() {
@@ -33,30 +54,38 @@
     draw(now());
   }
 
-  // lattice points around the window centre, shifted by (ox, oy)
-  function points(ox, oy) {
-    const R = Math.hypot(W, H) / 2 + 2 * d;
-    const rows = Math.ceil(R / (d * S3 / 2)) + 1, cols = Math.ceil(R / d) + 1;
-    const cx = W / 2, cy = H / 2, out = [];
-    for (let j = -rows; j <= rows; j++) {
-      const y = j * d * S3 / 2 + oy, off = (j & 1) ? d / 2 : 0;
-      for (let i = -cols; i <= cols; i++) {
-        const x = i * d + off + ox;
-        if (x * x + y * y <= R * R) out.push(cx + x, cy + y);
-      }
+  const tiles = [];
+  // one layer: draw one period of it into a small canvas, then fill the window with it
+  function layer(slot, sc, ox, oy, r, w, rim, groove) {
+    const Px = d * sc, Py = d * S3 * sc;                     // the period on screen, CSS px
+    const tw = Math.max(2, Math.ceil(Px * dpr)), th = Math.max(2, Math.ceil(Py * dpr));
+    const c = tiles[slot] || (tiles[slot] = document.createElement("canvas"));
+    if (c.width !== tw || c.height !== th) { c.width = tw; c.height = th; }
+    const tc = c.getContext("2d");
+    tc.setTransform(1, 0, 0, 1, 0, 0); tc.clearRect(0, 0, tw, th);
+    const ux = tw / Px, uy = th / Py;
+    tc.setTransform(ux, 0, 0, uy, 0, 0);
+    const R = r + d * 0.128 * w * sc, ni = Math.ceil(R / Px) + 1, nj = Math.ceil(R / Py) + 1;
+    for (const [col, lw] of [[rim, d * 0.128 * w * sc], [groove, d * 0.096 * w * sc]]) {
+      if (lw <= 0) continue;
+      tc.strokeStyle = col; tc.lineWidth = lw; tc.beginPath();
+      for (let j = -nj; j <= nj; j++) for (let i = -ni; i <= ni; i++)
+        for (let h = 0; h < 2; h++) {
+          const x = i * Px + h * Px / 2, y = j * Py + h * Py / 2;
+          if (x + R < 0 || x - R > Px || y + R < 0 || y - R > Py) continue;
+          tc.moveTo(x + r, y); tc.arc(x, y, r, 0, 2 * Math.PI);
+        }
+      tc.stroke();
     }
-    return out;
+    const pat = ctx.createPattern(c, "repeat");
+    pat.setTransform(new DOMMatrix([1 / ux, 0, 0, 1 / uy, W / 2 + ox * sc, H / 2 + oy * sc]));
+    ctx.fillStyle = pat; ctx.fillRect(0, 0, W, H);
   }
 
-  function ring(pts, r, w) {
-    for (const [color, lw] of [[RIM, d * 0.128 * w], [GROOVE, d * 0.096 * w]]) {
-      ctx.strokeStyle = color; ctx.lineWidth = lw; ctx.beginPath();
-      for (let k = 0; k < pts.length; k += 2) {
-        ctx.moveTo(pts[k] + r, pts[k + 1]);
-        ctx.arc(pts[k], pts[k + 1], r, 0, 2 * Math.PI);
-      }
-      ctx.stroke();
-    }
+  const RATE = 2 / (3 * CYCLE);                 // radius grows 2 cells every 3 cycles
+  function weight(t, g) {
+    const f = (t - g * CYCLE) / (LIFE * CYCLE);
+    return f <= 0 || f >= 1 ? 0 : Math.sin(Math.PI * f);
   }
 
   function draw(t) {
@@ -64,16 +93,21 @@
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.fillStyle = GROUND; ctx.fillRect(0, 0, W, H);
     const n = Math.floor(t / CYCLE);
-    for (let g = n - 2; g <= n; g++) {            // oldest (largest) first, newest on top
-      const f = (t - g * CYCLE) / (3 * CYCLE);
-      if (f <= 0 || f >= 1) continue;
-      const sub = ((g % 3) + 3) % 3;              // which interleaved copy it is born from
-      ring(points(sub * d / 2, sub * d * S3 / 6), 2 * d * f, Math.sin(Math.PI * f));
+    // how far back each generation sits: summed thickness of the newer ones in front
+    let behind = 0; const depthOf = new Map();
+    for (let g = n; g > n - LIFE; g--) { depthOf.set(g, behind); behind += weight(t, g); }
+    let slot = 0;
+    for (let g = n - LIFE + 1; g <= n; g++) {   // oldest (furthest back) first
+      const w = weight(t, g); if (w <= 0) continue;
+      const sc = Math.pow(DEPTH, depthOf.get(g)), fog = HAZE * (1 - sc), o = offset(g);
+      layer(slot++, sc, o[0] * d, o[1] * d, RATE * (t - g * CYCLE) * d * sc, w,
+            mix(RIM, GROUND, fog), mix(GROOVE, GROUND, fog));
     }
   }
 
-  const t0 = performance.now() / 1000 - 1.5 * CYCLE;   // open on a full flower, not on dots
-  const now = () => still.matches ? 1.5 * CYCLE : performance.now() / 1000 - t0;
+  // open somewhere different in the 8.5-minute loop on every visit
+  const t0 = performance.now() / 1000 - (LIFE + Math.random() * COPIES) * CYCLE;
+  const now = () => still.matches ? (LIFE + 0.5) * CYCLE : performance.now() / 1000 - t0;
   let last = 0;
   function frame(ms) {
     if (ms - last > 33) { last = ms; draw(now()); }    // ~30 fps; browsers pause hidden tabs
