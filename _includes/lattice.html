@@ -1,0 +1,87 @@
+<script>
+/* The living lattice behind blog posts (2026-11-11).
+   A Flower-of-Life hex lattice, carved in ground-ladder tones (lit rim, deep groove).
+   A hex lattice is three interleaved copies of itself: the circle centres and the
+   centres of its up- and down-pointing triangles. Every CYCLE seconds a new
+   generation of circles is born from the next copy, grows from a point to twice the
+   spacing over three cycles, and fades by THICKNESS (hairline, full, hairline), never
+   by transparency, which ghosts. So the pattern only moves forward, passing through
+   the Seed of Life, the Flower of Life, stars and false cubes, and never repeats a
+   moment the same way twice.
+   CYCLE is GEO_TURN / GEO_SYM from bible 2.8. "Reduce motion" gets one still frame. */
+(function () {
+  "use strict";
+  const CYCLE = 42.3607;
+  const S3 = Math.sqrt(3);
+  const GROUND = "#1e181e", RIM = "#3b373b", GROOVE = "#120c12";
+
+  const cv = document.createElement("canvas");
+  cv.className = "lattice-cv";
+  cv.setAttribute("aria-hidden", "true");
+  document.body.prepend(cv);
+  const ctx = cv.getContext("2d");
+  if (!ctx) return;
+  const still = matchMedia("(prefers-reduced-motion: reduce)");
+
+  let W, H, dpr, d;
+  function size() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = innerWidth; H = innerHeight;
+    cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+    cv.style.width = W + "px"; cv.style.height = H + "px";
+    d = parseFloat(getComputedStyle(document.documentElement).fontSize) * 9;   // 9rem cell
+    draw(now());
+  }
+
+  // lattice points around the window centre, shifted by (ox, oy)
+  function points(ox, oy) {
+    const R = Math.hypot(W, H) / 2 + 2 * d;
+    const rows = Math.ceil(R / (d * S3 / 2)) + 1, cols = Math.ceil(R / d) + 1;
+    const cx = W / 2, cy = H / 2, out = [];
+    for (let j = -rows; j <= rows; j++) {
+      const y = j * d * S3 / 2 + oy, off = (j & 1) ? d / 2 : 0;
+      for (let i = -cols; i <= cols; i++) {
+        const x = i * d + off + ox;
+        if (x * x + y * y <= R * R) out.push(cx + x, cy + y);
+      }
+    }
+    return out;
+  }
+
+  function ring(pts, r, w) {
+    for (const [color, lw] of [[RIM, d * 0.128 * w], [GROOVE, d * 0.096 * w]]) {
+      ctx.strokeStyle = color; ctx.lineWidth = lw; ctx.beginPath();
+      for (let k = 0; k < pts.length; k += 2) {
+        ctx.moveTo(pts[k] + r, pts[k + 1]);
+        ctx.arc(pts[k], pts[k + 1], r, 0, 2 * Math.PI);
+      }
+      ctx.stroke();
+    }
+  }
+
+  function draw(t) {
+    if (!W) return;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.fillStyle = GROUND; ctx.fillRect(0, 0, W, H);
+    const n = Math.floor(t / CYCLE);
+    for (let g = n - 2; g <= n; g++) {            // oldest (largest) first, newest on top
+      const f = (t - g * CYCLE) / (3 * CYCLE);
+      if (f <= 0 || f >= 1) continue;
+      const sub = ((g % 3) + 3) % 3;              // which interleaved copy it is born from
+      ring(points(sub * d / 2, sub * d * S3 / 6), 2 * d * f, Math.sin(Math.PI * f));
+    }
+  }
+
+  const t0 = performance.now() / 1000 - 1.5 * CYCLE;   // open on a full flower, not on dots
+  const now = () => still.matches ? 1.5 * CYCLE : performance.now() / 1000 - t0;
+  let last = 0;
+  function frame(ms) {
+    if (ms - last > 33) { last = ms; draw(now()); }    // ~30 fps; browsers pause hidden tabs
+    if (!still.matches) requestAnimationFrame(frame);
+  }
+  addEventListener("resize", size);
+  still.addEventListener("change", () => { draw(now()); if (!still.matches) requestAnimationFrame(frame); });
+  size();
+  requestAnimationFrame(frame);
+})();
+</script>
