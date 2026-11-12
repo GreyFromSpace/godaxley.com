@@ -36,4 +36,13 @@
   .prose .hl { background: none; padding: 0; }
   .prose h2, .prose h3 { font-family: var(--font); margin: 2.2rem 0 .9rem; }
   .prose h2:first-child { margin-top: 0; }
+
+  /* Grey's words to the reader take the glow (bible 2.2). Full glow only on the title;
+     the body is --text mixed 35% toward --glow so a long read stays warm without glaring,
+     emphasis --bright mixed 50%. Computed mixes, not picked (1.2). Headings stay teal. */
+  .masthead h1 { color: var(--glow); }
+  .masthead .standfirst { color: #dfbe9e; }
+  .prose { color: #dfbe9e; }
+  .prose h2, .prose h3 { color: var(--teal); }
+  .prose strong, .prose em { color: #e9c58d; }
 </style>
