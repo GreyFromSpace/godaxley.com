@@ -7,7 +7,7 @@ published: true
 
 ## Born
 
-I was born March 26th, 1996, at 7:33 PM, to Jerry and Holly. Holly was 17. Her parents were Nancy and Bob Woods. They divorced, and Bob later killed himself. No idea why. Holly was raised by Brett Denhalter.
+I was born in 1996, to Jerry and Holly. Holly was 17. Her parents were Nancy and Bob. They divorced, and Bob later killed himself. No idea why. Holly was raised by Brett Denhalter.
 
 Very soon after I was born, I was kidnapped by my grandparents. No warning, no explanation. They just showed up. I had been left alone with some random tweaker while the other two did god knows what. They raised me from then on. Brett and Nancy were mom and dad to me. I'd known before that, but around 11 years old it really clicked. Sitting on the playground, spacing out, when it finally fell into place.
 
@@ -78,13 +78,11 @@ Even though I said, "I don't like this."
 
 "Stop it, please!"
 
-**Brett:** Why is my reaction dramatic? Why is it unnecessary to you? Why do my feelings not matter, but if I upset you, I'm held accountable for how I made you feel? I could call you a fucking retard asshole and you'd get so upset. You'd get angry, and you'd use your authority over me to get the kind of retribution I could never get, because if I did that, it would be immature.
-
-That's DARVO as fuck. Deny: "You're misremembering." Attack: my reaction is dramatic. Reverse victim and offender: I upset him, so I'm the one who's accountable.
+**To Brett:** Why is my reaction dramatic? Why is it unnecessary to you? Why do my feelings not matter, but if I upset you, I'm held accountable for how I made you feel? I could call you a fucking retard asshole and you'd get so upset. You'd get angry, and you'd use your authority over me to get the kind of retribution I could never get, because if I did that, it would be immature.
 
 The only way he justifies it, even though he never once said it out loud, is this: *I am the head of the household. I am the father. I own you. You don't have rights. You don't have individuality. You are an extension of me.*
 
-That's disgusting. It's how people justify awful, horrible things. Rape. Murder. People have killed their children because they believed there were demons inside of them, beaten them to death while chanting holy scripture to get the demons out. I'm not saying my experience was anything like that. But trying to minimize it by telling me I wasn't abused is abhorrent and is the exact kind of thing someone who perpetrates something so heinous would do. I am appalled, and I'd hope that he someday reflects and feels just as appalled...
+That's disgusting. I am appalled, and I'd hope that he someday reflects and feels just as appalled...
 
 Who does that? Who justifies that? He used masculinity as a tool to justify it, too. Guys should just be tough and take it. Well, I can be femme if I want. I'll wear makeup and not be afraid, because I'm not fragile like he is. Snowflake.
 
@@ -94,7 +92,7 @@ I haven't said much about Nancy. She's complicated. She was a passive observer o
 
 So she was a doormat for him. She allowed so much. Then, all of a sudden, she'd be fun, actually pleasant to be around. Helpful. Actually kind. So it's complicated.
 
-**Nancy:** You didn't protect me. I guess you made me feel a little bit appreciated and loved. But I never felt emotionally cared for.
+**To Nancy:** You didn't protect me. I guess you made me feel a little bit appreciated and loved. But I never felt emotionally cared for.
 
 She had no patience for any kind of darkness. "Well, we don't think about negative things, we only think about positive things." Live, laugh, love. Ha, ha, ha, ha.
 
@@ -178,7 +176,7 @@ I'm skimming this story hard. There are a lot of smash cuts here.
 
 So I left.
 
-I went to live with my aunt Randi. Randi is a rich woman with tons of money in an amazing house. She never really raised kids, and she's kind of useless. She believes she's codependent, and she believes everyone only ever wants to talk to her for her money. She was also afraid of spoiling me. I was already considered spoiled anyway. Her husband, Gary Lothamer, is some oil tycoon who tells engineers what to do. Hunts big game, golfs. Put a safari hat on him, he's got the Ron Swanson mustache and everything. I literally never see him.
+I went to live with my aunt Randi. Randi is a rich woman with tons of money in an amazing house. She never really raised kids, and she's kind of useless. She believes she's codependent, and she believes everyone only ever wants to talk to her for her money. She was also afraid of spoiling me. I was already considered spoiled anyway. Her husband, Gary, is some oil tycoon who tells engineers what to do. Hunts big game, golfs. Put a safari hat on him, he's got the Ron Swanson mustache and everything. I literally never see him.
 
 If Randi ever wanted to talk to me, she could. Sadly, I'd probably tell her all my shit, and she'd hate me, because she'd hear my problems as me asking for money.
 
@@ -202,7 +200,7 @@ As for Holly. She ended up doing a shit load of meth with my birth father and sh
 
 I'm awesome, and big, and fat, and being big and fat is sexy.
 
-**Holly:** Every time I cum is a fuck you to you and your stupid twiggy fucking face, you gacked out tweaker bitch.
+**To Holly:** Every time I cum is a fuck you to you and your stupid twiggy fucking face, you gacked out tweaker bitch.
 
 ## Scot-Free
 
@@ -260,7 +258,7 @@ I'll probably do kind of an Unus Annus thing. This blog will stick around about 
 
 ## Fuck You
 
-**Brett:** You've never once said out loud that you recognize any of this, or that you're sorry. You wonder why I'm still so upset, why I never want to talk to you. Except when I do, and I send you rambles at 3am that you'll never read, because you literally do not care. You're comfortable knowing I'm just some fucking insane person you don't have to worry about. Outside of talking shit about me at family gatherings because you just love posturing yourself above anything you deem yourself better than mm? Morally superior, mmm?
+**To Brett:** You've never once said out loud that you recognize any of this, or that you're sorry. You wonder why I'm still so upset, why I never want to talk to you. Except when I do, and I send you rambles at 3am that you'll never read, because you literally do not care. You're comfortable knowing I'm just some fucking insane person you don't have to worry about. Outside of talking shit about me at family gatherings because you just love posturing yourself above anything you deem yourself better than mm? Morally superior, mmm?
 
 I know deep down that I will never, ever hear an apology. Not in any scenario I run in my head. Not for anything I text you at 3am. I'm screaming into the void, letting you drill holes into my brain, and for some reason I feel hideously compelled to keep obsessing over it. Because it keeps coming back.
 
