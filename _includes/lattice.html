@@ -1,5 +1,6 @@
 <script>
-/* The living lattice (2026-11-12, Grey's settings: 12 copies, 6 alive, depth 0.5, shade).
+/* The living lattice (2026-11-12, Grey's settings: 12 copies, 6 alive, depth 0.5, shade,
+   rotating order).
    A Flower-of-Life hex lattice, carved in ground-ladder tones (lit rim, deep groove).
 
    Copies: a hex lattice lines up with itself at the centres of its triangles (3 places)
@@ -9,7 +10,8 @@
    transparency, which ghosts. Six generations are alive at once. All 12 copies take
    8.5 minutes to come round, and each visit opens somewhere different in that loop.
 
-   Depth: newest in front. Each layer behind is zoomed out by DEPTH per step, about the
+   Order: one copy holds the top for two full loops (17 minutes), then the top steps to
+   the next copy (see STEP below). Depth: each layer behind is zoomed out by DEPTH per step, about the
    window centre, and sinks toward the ground colour like haze. "How far back" is the
    summed thickness of the layers in front, so a hairline newborn or a dying layer
    weighs nothing and nobody jumps when one arrives or leaves.
@@ -88,25 +90,50 @@
     return f <= 0 || f >= 1 ? 0 : Math.sin(Math.PI * f);
   }
 
+  // Stacking order rotates: one copy holds the top for STEP (two full loops, 17 min),
+  // the rest stacked behind it in copy order. Then the top steps to the next copy. At the
+  // step the old top fades out over TRANS (one cycle) while the stack eases to its new
+  // depths; only during that window is anything see-through.
+  const STEP = CYCLE * COPIES * 2, TRANS = CYCLE;
+  const idx = g => ((g % COPIES) + COPIES) % COPIES;
+  const sm = x => x * x * (3 - 2 * x);
+  function stack(gens, top) {     // back to front: furthest from the top copy first
+    return gens.slice().sort((a, b) => ((idx(b) - top + COPIES) % COPIES) - ((idx(a) - top + COPIES) % COPIES));
+  }
+  function ranks(t, list) {       // how far back = summed thickness of the layers in front
+    const r = new Map(); let acc = 0;
+    for (let k = list.length - 1; k >= 0; k--) { r.set(list[k], acc); acc += weight(t, list[k]); }
+    return r;
+  }
+
   function draw(t) {
     if (!W) return;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.fillStyle = GROUND; ctx.fillRect(0, 0, W, H);
-    const n = Math.floor(t / CYCLE);
-    // how far back each generation sits: summed thickness of the newer ones in front
-    let behind = 0; const depthOf = new Map();
-    for (let g = n; g > n - LIFE; g--) { depthOf.set(g, behind); behind += weight(t, g); }
+    const n = Math.floor(t / CYCLE), top = idx(Math.floor(t / STEP));
+    const gens = []; for (let g = n - LIFE + 1; g <= n; g++) gens.push(g);
+    const order = stack(gens, top), rNew = ranks(t, order);
+    const into = t - Math.floor(t / STEP) * STEP, ease = into < TRANS ? sm(into / TRANS) : 1;
+    const rOld = ease < 1 ? ranks(t, stack(gens, (top - 1 + COPIES) % COPIES)) : rNew;
     let slot = 0;
-    for (let g = n - LIFE + 1; g <= n; g++) {   // oldest (furthest back) first
-      const w = weight(t, g); if (w <= 0) continue;
-      const sc = Math.pow(DEPTH, depthOf.get(g)), fog = HAZE * (1 - sc), o = offset(g);
+    function paint(g) {
+      const w = weight(t, g); if (w <= 0) return;
+      const rank = rOld.get(g) + (rNew.get(g) - rOld.get(g)) * ease;
+      const sc = Math.pow(DEPTH, rank), fog = HAZE * (1 - sc), o = offset(g);
       layer(slot++, sc, o[0] * d, o[1] * d, RATE * (t - g * CYCLE) * d * sc, w,
             mix(RIM, GROUND, fog), mix(GROOVE, GROUND, fog));
     }
+    for (const g of order) paint(g);
+    if (ease < 1) {               // the old top, fading out over everything
+      const old = (top - 1 + COPIES) % COPIES;
+      ctx.globalAlpha = 1 - ease;
+      for (const g of gens) if (idx(g) === old) paint(g);
+      ctx.globalAlpha = 1;
+    }
   }
 
-  // open somewhere different in the 8.5-minute loop on every visit
-  const t0 = performance.now() / 1000 - (LIFE + Math.random() * COPIES) * CYCLE;
+  // open somewhere different on every visit: any point in the full round of tops
+  const t0 = performance.now() / 1000 - (LIFE * CYCLE + Math.random() * STEP * COPIES);
   const now = () => still.matches ? (LIFE + 0.5) * CYCLE : performance.now() / 1000 - t0;
   let last = 0;
   function frame(ms) {
